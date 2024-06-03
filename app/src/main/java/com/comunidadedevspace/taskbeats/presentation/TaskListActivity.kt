@@ -1,4 +1,4 @@
-package com.comunidadedevspace.taskbeats
+package com.comunidadedevspace.taskbeats.presentation
 
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
@@ -12,17 +12,19 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
+import com.comunidadedevspace.taskbeats.R
+import com.comunidadedevspace.taskbeats.data.AppDataBase
+import com.comunidadedevspace.taskbeats.data.Task
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var ctn_content: LinearLayout
+    private lateinit var ctnContent: LinearLayout
 
     private val adapter: TaskListAdapter by lazy {
         TaskListAdapter(::onListItemClicked)
@@ -63,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         listFromDataBase()
-        ctn_content = findViewById(R.id.ctn_content)
+        ctnContent = findViewById(R.id.ctn_content)
 
         val rvTasks: RecyclerView = findViewById(R.id.rv_task_list)
         rvTasks.adapter = adapter
@@ -84,7 +86,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun uptadeInToDataBase(task: Task) {
         CoroutineScope(IO).launch {
-            dao.uptade(task)
+            dao.update(task)
             listFromDataBase()
         }
     }
